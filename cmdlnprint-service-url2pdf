@@ -1,0 +1,12 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:          cmdlnprinter-service-url2pdf
+# Required-Start:    networking
+# Required-Stop:     networking
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+### END INIT INFO
+
+start-stop-nodaemon --name "URL2PDF Connector" --user url2pdf $1 -- /usr/bin/cli /opt/CmdlnprintService/cmdlnprint-service.exe --silent --desktop 20 --ip 127.0.0.1 --port 9085
+exit $?
+

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+APPNAME=CmdlnprintService
+BUILDPATH=$(dirname "$0")
+CURRPATH=$(pwd)
+RUNCMD=$(basename "$0")
+cd "$BUILDPATH"
+
+case "$1" in
+    clean)
+        find ./ -type d -name bin -exec rm -rf "{}" \; 2>/dev/null;
+        find ./ -type d -name obj -exec rm -rf "{}" \; 2>/dev/null;
+        ;;
+    build)
+        /bin/bash "$RUNCMD" clean
+        xbuild /p:Configuration=Release
+        ;;
+    install)
+        if [ -d "/opt/$APPNAME/" ]; then
+            cp -v $APPNAME/bin/Release/* /opt/$APPNAME
+        else
+            echo "Copy the contents of $APPNAME/bin/Release/* to final destiny"
+            echo "example: cp -v $APPNAME/bin/Release/* /opt/$APPNAME/"
+        fi
+        ;;
+    all)
+        /bin/bash "$RUNCMD" build
+        /bin/bash "$RUNCMD" install
+        ;;
+    *)
+        echo "Usage: $0 clean | build | install | all"
+        ;;
+esac
+cd "$CURRPATH"
+
